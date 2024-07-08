@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title> SnackMingo </title>
+</head>
+<body>
+    <!--sidebar-->
+    <div class="sidebar">
+        <!--logo-->
+        <h1 class="logo">Mingo Snacks</h1>
+
+        <!--List of menus-->
+        <div class="sidebar-menus">
+            <h3> Order At Your Ease! </h3>
+            <p> Items served in Minutes <br> Just Order And Relax </p>
+            
+        </div>
+        <div class="sidebar-logout">
+            <h1></h1>
+
+        </div>
+    </div>
+
+    <!--main-->
+    <div class="main">
+        <!--main navbar-->
+        <div class="main-navbar">
+            <!--menu when appear on website-->
+            <ion-icon class="menu-toggle" name="menu-outline"></ion-icon>
+            <!--search bar-->
+            <div class="search">
+                <input type="text" placeholder="what do you want to eat">
+                <button class="search-btn" type="submit" name="search_term">Search</button>
+            </div>
+            
+            <!--profile icon on left side of navbar-->
+            <div class="profile">
+                <a href="#" class="cart"  onclick="toggleCartPopup()">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+        <!--shopping-->
+        <div id="cart-popup" class="cart-popup">
+            <h4>Shopping Cart</h4>
+            <table id="cart-items">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>#</th>
+                        <th>Price(&#8377;)</th>
+                        <th>Total(&#8377;)</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                
+            </table>
+            <p> Total(&#8377;) <span id="cart-total">0.00</span> </p>
+            <a onclick="closeCart()" class="cart-close"> <ion-icon name="close-circle-outline"> </ion-icon> </a>
+            <button class="Order-btn" onclick="generateBill()">Order</button>
+        </div>
+        <div id="bill-modal" class="bill-modal">
+            <div class="bill-content">
+                <h4>Bill</h4>
+                <p id="bill-timestamp"></p>
+                <table id="bill-items">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>#</th>
+                            <th>Price(&#8377;)</th>
+                            <th>Total(&#8377;)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p>Total(&#8377;) <span id="bill-total">0.00</span></p>
+                <p>Status: Paid</p>
+                <button onclick="closeBillModal()">Close</button>
+            </div>
+        </div>
+        <!--main higlight-->
+        <div class="main-highlight">
+            <!--title Section and arrow-->
+            <div class="main-header">
+                <h2 class="main-header"> Hot Sellers </h2>
+            </div>
+            <!--highlight menu-->
+            <div class="highlight-wrapper">
+                <div class="highlight-card">
+                    <img src="{{ url_for('static', filename='images/Bun Samosa.JPG') }}" class="highlight-img">
+                    <div class="highlight-desc">
+                        <h4>Bun Samosa</h4>
+                        <p>&#8377;30.00</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <img src="{{ url_for('static', filename='images/Muskmelon juice.jpeg') }}" class="highlight-img">
+                    <div class="highlight-desc">
+                        <h4>Muskmelon</h4>
+                        <p>&#8377;40.00</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <img src="{{ url_for('static', filename='images/Mango Milkshake.jpeg') }}" class="highlight-img">
+                    <div class="highlight-desc">
+                        <h4>Mango</h4>
+                        <p>&#8377;50.00</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <img src="{{ url_for('static', filename='images/panner roll.jpeg') }}" class="highlight-img">
+                    <div class="highlight-desc">
+                        <h4>Panner roll</h4>
+                        <p>&#8377;80.00</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <img src="{{ url_for('static', filename='images/Masala Maggi.jpeg') }}" class="highlight-img">
+                    <div class="highlight-desc">
+                        <h4>Masala Maggi</h4>
+                        <p>&#8377;40.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--main menus/order-->
+        <div class="main-menu">
+            <!--filter section-->
+            <div class="main-filter">
+                <div>
+                    <h2 class="main-title">Menu Category</h2>
+                </div>
+                <div class="filter-wrapper">
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="restaurant-outline"></ion-icon>
+                        </div>
+                        <p>All Menus</p>
+                    </div>
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="beer-outline"></ion-icon>
+                        </div>
+                        <p>Hot Beverages</p>
+                    </div>
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="fast-food-outline"></ion-icon>
+                        </div>
+                        <p>Burgers</p>
+                    </div>
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="pizza-outline"></ion-icon>
+                        </div>
+                        <p>Sandwiches</p>
+                    </div>
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="wine-outline"></ion-icon>
+                        </div>
+                        <p>Milkshakes</p>
+                    </div>
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="ice-cream-outline"></ion-icon>
+                        </div>
+                        <p>Ice Creams</p>
+                    </div>
+                    <div class="filter-card">
+                        <div class="filter-icon">
+                            <ion-icon name="apps-outline"></ion-icon>
+                        </div>
+                        <p>Others</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="divider">
+            <!--list of food menus-->
+            <div class="main-detail">
+                <h2 class="main-title">Choose Order</h2>
+                <div class="detail-wrapper">
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Bun Samosa.JPG') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Bun Samosa</h4>
+                                <h5 class="price">&#8377;30.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Bun Samosa',30.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/panner roll.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Panner roll</h4>
+                                <h5 class="price">&#8377;80.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Panner Roll',80.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Mango Milkshake.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Mango Milkshake</h4>
+                                <h5 class="price">&#8377;50.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Mango Milkshake',50.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Masala Maggi.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Masala Maggi</h4>
+                                <h5 class="price">&#8377;40.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Masala Maggi',40.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Muskmelon juice.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Muskmelon juice</h4>
+                                <h5 class="price">&#8377;40.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Muskmelon juice',40.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Filter Coffee.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Filter Coffee</h4>
+                                <h5 class="price">&#8377;12.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Filter Coffee',12.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Tea.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Chai/Tea</h4>
+                                <h5 class="price">&#8377;12.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Chai/Tea',12.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Badam Milk.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Badam Milk</h4>
+                                <h5 class="price">&#8377;15.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Badam Milk',15.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Hot Chocolate.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Hot Chocolate</h4>
+                                <h5 class="price">&#8377;20.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Hot Chocolate',20.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Veg Roll.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Veg Roll</h4>
+                                <h5 class="price">&#8377;50.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Veg Roll',50.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Dual Strawberry.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Dual Strawberry</h4>
+                                <h5 class="price">&#8377;30.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Dual Strawberry',30.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <img src="{{ url_for('static', filename='images/Veg Sandwhich.jpeg') }}" class="detail-img">
+                        <div class="detail-desc">
+                            <div class="detail-name">
+                                <h4>Veg Sandwhich</h4>
+                                <h5 class="price">&#8377;50.00</h5>
+                                <button class="add-to-cart" onclick="addToCart('Veg Sandwhich',50.00)">Add to Cart</button>
+                            </div>
+                            <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <script>
+        function toggleCartPopup() {
+            var popup = document.getElementById('cart-popup');
+            popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function closeCart() {
+            document.getElementById('cart-popup').style.display = 'none';
+        }
+
+        function addToCart(itemName, itemPrice) {
+            fetch('/add_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `item_name=${encodeURIComponent(itemName)}&item_price=${encodeURIComponent(itemPrice)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateCart(data.cart);
+                document.getElementById('cart-count').innerText = data.cart_count;
+            });
+        }
+
+        function updateCart(cart) {
+            const cartItems = document.querySelector('#cart-items tbody');
+            cartItems.innerHTML = '';
+
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price.toFixed(2)}</td>
+                    <td>${item.total.toFixed(2)}</td>
+                `;
+                cartItems.appendChild(row);
+            });
+
+            const total = cart.reduce((acc, item) => acc + item.total, 0);
+            document.getElementById('cart-total').innerText = total.toFixed(2);
+        }
+
+        function generateBill() {
+            fetch('/generate_bill', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                showBillModal(data);
+                // Clear the cart UI
+                updateCart([]);
+                document.getElementById('cart-count').innerText = '0';
+            });
+        }
+
+        function showBillModal(bill) {
+            const billModal = document.getElementById('bill-modal');
+            const billItems = document.querySelector('#bill-items tbody');
+            const billTimestamp = document.getElementById('bill-timestamp');
+            const billTotal = document.getElementById('bill-total');
+
+            billItems.innerHTML = '';
+            bill.items.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price.toFixed(2)}</td>
+                    <td>${item.total.toFixed(2)}</td>
+                `;
+                billItems.appendChild(row);
+            });
+
+            billTimestamp.innerText = bill.timestamp;
+            billTotal.innerText = bill.total.toFixed(2);
+
+            billModal.style.display = 'block';
+        }
+
+        function closeBillModal() {
+            document.getElementById('bill-modal').style.display = 'none';
+        }
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
